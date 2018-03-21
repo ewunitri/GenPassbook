@@ -1,3 +1,3 @@
 # GenPassbook
 
-Generating bank passbook 
+Generating bank passbook images
