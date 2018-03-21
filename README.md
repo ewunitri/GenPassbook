@@ -1,3 +1,3 @@
 # GenPassbook
 
-Generating data passbook 
+Generating bank passbook 
