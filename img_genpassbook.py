@@ -277,8 +277,8 @@ def data_augmentation(root_path, curbank):
             ## add xml beginning
             
             xml_file.write('<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n')
-            xml_file.write('<Page box=\"0,0,{},{}\">\n'.format(im_w,im_h))
-            xml_file.write('\t<Passbook{} box=\"0,0,{},{}\">\n'.format(curbank.bank_id,im_w,im_h))
+            xml_file.write('<Page bbox=\"0,0,{},{}\">\n'.format(im_w,im_h))
+            xml_file.write('\t<Passbook{} bbox=\"0,0,{},{}\">\n'.format(curbank.bank_id,im_w,im_h))
                 
             shiftBlock = 0
             for row, coordy in enumerate(Coord_Y):
