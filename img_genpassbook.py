@@ -87,7 +87,8 @@ def set_drawTxt(txt, cell, col_item, row, col, x, y, font, font_type, text_color
     chCnt = 0  
     xmlCell = cell.encode('UTF-8').strip()
     
-    fontStr = font_type.split('/')[-1]  ## get the filename of the font type
+    fontStrfile = font_type.split('/')[-1]  ## get the filename of the font type
+    fontStr, _ = os.path.splitext(fontStrfile)
     
     if col_item != None:
         ## the 1st row
@@ -101,7 +102,7 @@ def set_drawTxt(txt, cell, col_item, row, col, x, y, font, font_type, text_color
                 xmlfile.write('\t\t<ContinuedField>\n')
             elif ((len(col_item)==3) and (col ==1)) or \
                  ((len(col_item)==4) and (col ==1)):
-                xmlfile.write('\t\t<AccoountField>\n')
+                xmlfile.write('\t\t<AccountField>\n')
             elif ((len(col_item)==3) and (col ==2)) or \
                  ((len(col_item)==4) and (col ==3)):
                 xmlfile.write('\t\t<RemainBalanceField>\n')
@@ -109,7 +110,7 @@ def set_drawTxt(txt, cell, col_item, row, col, x, y, font, font_type, text_color
         elif (row > 0):
             ## if it is the beginning of the row, 'transaction Record Row' tag is added
             if (col ==0):
-                xmlfile.write('\t\t<TransactionRecordRow index = \"%d\">\n' % row)
+                xmlfile.write('\t\t<TransactionRecordRow>\n')
             ## add the item string as field tag
             if (len(cell.strip())>0):    
                 xmlfile.write('\t\t\t<%sField>\n' % col_item[col])
@@ -144,8 +145,6 @@ def set_drawTxt(txt, cell, col_item, row, col, x, y, font, font_type, text_color
                 #    os.rename(saveTempImgName, saveImgName)
                 #    saveImgNo +=1
 
-            if (row>0):
-                xmlfile.write('\t')                
 
             if (isChinese(xmlCell[i])):
                 ## if this character is a part of a chinese character, combine the rest of 2 into a chinese character
@@ -163,8 +162,17 @@ def set_drawTxt(txt, cell, col_item, row, col, x, y, font, font_type, text_color
                 ## draw text on the text image
                 txt.text((x_lcl, y_lcl), ch, font=font, fill=text_color )
                 i+=1
+            
+            
             ## compose the dataline of xml data
-            xmlfile.write('\t\t\t<Char index=\"%d\" bbox=\"%d,%d,%d,%d\" value=\"%s\" font=\"%s\"/>\n' % (chCnt+1,x_lcl+ch_x,y_lcl+ch_y,ch_width,ch_height, ch,fontStr))           
+            if (ch_width>0):
+                if (row>0):
+                    xmlfile.write('\t')                
+                #xmlfile.write('\t\t\t<Char index=\"%d\" bbox=\"%d,%d,%d,%d\" value=\"%s\" font=\"%s\"/>\n' % (chCnt+1,x_lcl+ch_x,y_lcl+ch_y,ch_width,ch_height, ch,fontStr))           
+                xmlfile.write('\t\t\t<Char lefttop_x=\"%d\" lefttop_y=\"%d\" width=\"%d\" height=\"%d" value=\"%s\" font=\"%s\"/>\n' % (x_lcl+ch_x,y_lcl+ch_y,ch_width,ch_height, ch,fontStr))           
+            
+            
+            
             ## set the location of x according to the minimum needed text_width
             if (ch_width ==0):
                 x_lcl +=charPrintWidth
@@ -183,7 +191,7 @@ def set_drawTxt(txt, cell, col_item, row, col, x, y, font, font_type, text_color
                 xmlfile.write('\t\t</ContinuedField>\n')
             elif ((len(col_item)==3) and (col ==1)) or \
                  ((len(col_item)==4) and (col ==1)):
-                xmlfile.write('\t\t</AccoountField>\n')
+                xmlfile.write('\t\t</AccountField>\n')
             elif ((len(col_item)==3) and (col ==2)) or \
                  ((len(col_item)==4) and (col ==3)):
                 xmlfile.write('\t\t</RemainBalanceField>\n')
@@ -277,8 +285,8 @@ def data_augmentation(root_path, curbank):
             ## add xml beginning
             
             xml_file.write('<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n')
-            xml_file.write('<Page bbox=\"0,0,{},{}\">\n'.format(im_w,im_h))
-            xml_file.write('\t<Passbook{} bbox=\"0,0,{},{}\">\n'.format(curbank.bank_id,im_w,im_h))
+            xml_file.write('<Page lefttop_x=\"0\" lefttop_y=\"0\" width=\"{}\" height=\"{}">\n'.format(im_w,im_h))
+            xml_file.write('\t<Passbook{}>\n'.format(curbank.bank_id))
                 
             shiftBlock = 0
             for row, coordy in enumerate(Coord_Y):
