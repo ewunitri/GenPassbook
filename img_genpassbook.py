@@ -35,16 +35,20 @@ from img_process.general       import   im_save, im_image_paste_to_bottomImage
 #-------------------------------------------------------------------------------
 #   get_font()
 #   get a font from 'font/'.
-#   if randomMode is off, 'wt001.tff' is used as default
+#   if spc_font is given and found in the font folder, use the specified one,
+#   otherwise, pick randomly
 #-------------------------------------------------------------------------------                             
-def get_font(cur_path, randomMode = 0):
-    cur_path = join(cur_path, 'font/')
-    if (randomMode):
-        onlyfiles = [f for f in listdir(cur_path) if isfile(join(cur_path, f))]
-        randfont = random.randint (0, len(onlyfiles)-1)
-        font = cur_path + onlyfiles[randfont]
-    else:    
-        font = cur_path +'wt001.ttf'
+def get_font(cur_path, spc_font):
+    cur_path = join(cur_path, 'font')
+    
+    fontfiles = [f for f in listdir(cur_path) if isfile(join(cur_path, f))]
+    
+    if (spc_font in fontfiles):
+        font = join(cur_path, spc_font)
+    else:
+        randfont = random.randint (0, len(fontfiles)-1)
+        font = join(cur_path, fontfiles[randfont])
+
     return  font
 
 
@@ -272,7 +276,7 @@ def data_augmentation(root_path, curbank):
         imgID       = page
         img_fileName= '%s_%s_%06d.jpg' %(curbank.bank, bgimgsub_s, imgID)
         xml_fileName= '%s_%s_%06d.xml' %(curbank.bank, bgimgsub_s, imgID)
-        font_type   = get_font(root_path, randomMode = 1)
+        font_type   = get_font(root_path, curbank.fonttype)
         
         print (join(img_dirPath,xml_fileName))
         #xml_file = open(join(img_dirPath,xml_fileName),'w')
@@ -292,7 +296,7 @@ def data_augmentation(root_path, curbank):
             for row, coordy in enumerate(Coord_Y):
                 if shiftBlock == 0:
                     ## pick a font type for this data block
-                    font_type   = get_font(root_path, randomMode = 1)
+                    font_type   = get_font(root_path, curbank.fonttype)
                     curbank.font = font_type
                     font     = ImageFont.truetype( font_type, font_size);
                     shiftBlock = random.randint(0, curbank.max_shift_block)
@@ -403,5 +407,8 @@ if __name__ == "__main__":
     saveImgNo = 0                                    
     
     allBank = read_general_bank_info('./source/bank_info.txt')
-    for bank in allBank:
-        data_augmentation('./', bank)
+    if not allBank:
+        print "Bank information not loaded"
+    else:    
+        for bank in allBank:
+            data_augmentation('./', bank)
