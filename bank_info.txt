@@ -1,0 +1,109 @@
+{
+    bank = 'CTBC'
+    
+    bank_id = '822'
+    
+    saveCharImg = 0
+
+    ## background image
+    bgImg = 'source/0.png'
+    
+    ## Page setting
+    ## max output page count
+    pages = 5
+    
+    ## specified font type: if not given (or file not found), font will be randomly picked
+    font_type = wt001.ttf
+
+    ## specified font size
+    font_size = 40    
+    
+    ## max shift X pixel
+    maxShift_X = 20
+
+    ## max shift Y pixel
+    maxShift_Y = 18
+    
+    ## shift max block size
+    max_shift_block = 10
+
+    ## shift_mode: 0-discrete uniform distribution; 1-normal distribution
+    shift_mode = 1
+
+    ## total row 
+    total_row = 24
+
+    ## column item
+    col_item = Date, Memo, Withdrawal, Deposit, Balance, Remarks
+    
+    ## column data right alignment on/off
+    right_align = 0,0,1,1,1,0
+    
+    ##    
+    MEMO_OUT  = 轉帳, 提款,手續費,簽帳卡
+    
+    ##
+    MEMO_IN  = 存款息,轉帳存,現金,薪資
+    
+    ##
+    SHOP_STR        = 家樂福,7-11,全家, 頂好
+    USERNAME_STR    = ' ', Mary Lee,王大明, Tommy Sun
+    BANK_STR        =  國泰世華, 郵匯局, 兆豐商銀, 北富銀, 合作金庫
+    ATM_STR         = ' ', ' '
+    DEBIT_STR       = V扣款        
+}
+
+{
+    bank = 'LAND'
+    
+    bank_id = '005'
+    
+    saveCharImg = 0
+
+    ## background image
+    bgImg = 'source/1.png'
+
+    ## Page setting
+    ## max output page count
+    pages = 5
+
+    ## font type
+    #font_type = pmingliu.ttf (disabled!!)
+    
+    ## font size
+    font_size = 36        
+
+    ## max shift X pixel
+    maxShift_X = 20
+
+    ## max shift Y pixel
+    maxShift_Y = 10
+    
+    ## shift max block size
+    max_shift_block = 10
+
+    ## shift_mode: 0-discrete uniform distribution; 1-normal distribution
+    shift_mode = 1
+
+    ## total row 
+    total_row = 24
+
+    ## column item
+    col_item = Date, Memo, Withdrawal, Deposit, Balance
+
+    ## column data right alignment on/off
+    right_align = 0,0,1,1,1
+    
+    ##    
+    MEMO_OUT  = 轉帳, 提款,手續費,簽帳卡
+    
+    ##
+    MEMO_IN  = 存款息,轉帳存,現金,薪資
+    
+    ##
+    SHOP_STR        = 家樂福,7-11,全家, 頂好
+    USERNAME_STR    = '', Mary Lee,王大明, Tommy Sun
+    BANK_STR        =  中國信託, 郵匯局, 兆豐商銀, 北富銀, 合作金庫
+    ATM_STR         = '', ATM
+    DEBIT_STR       = V 扣款    
+}
